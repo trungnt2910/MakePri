@@ -1,0 +1,6 @@
+add_subdirectory(tools)
+add_subdirectory(fsi)
+add_subdirectory(ibc)
+add_subdirectory(langs)
+add_subdirectory(mrm)
+add_subdirectory(runtime)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Greeting" xml:space="preserve">
+        <value>Hello</value>
+    </data>
+    <data name="GreetingAlias">
+        <link>Resources/Greeting</link>
+        <comment>resource alias</comment>
+    </data>
+</root>

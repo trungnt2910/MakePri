@@ -1,0 +1,2 @@
+makepri_add_library(makepri_mrmstatus STATIC DefStatus.cpp DefStatus_C.cpp DefStatusEx.cpp)
+add_library(makepri_resources_mrm_status ALIAS makepri_mrmstatus)

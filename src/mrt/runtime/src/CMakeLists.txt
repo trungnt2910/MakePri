@@ -1,0 +1,4 @@
+makepri_add_library(makepri_mrmruntimedlp STATIC CResourceIndexInternal.cpp)
+add_library(makepri_resources_runtime ALIAS makepri_mrmruntimedlp)
+
+target_link_libraries(makepri_mrmruntimedlp PRIVATE oleaut32 urlmon)

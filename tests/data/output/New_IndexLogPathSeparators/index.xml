@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+	<package filename="resources.pri">
+		<instance itemname="Resources\Mixed\Back\Forward" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw" type="String">
+			<value>mixed</value>
+		</instance>
+		<instance itemname="Resources\Back\Leaf" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw" type="String">
+			<value>back</value>
+		</instance>
+		<instance itemname="Resources\Forward\Leaf" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw" type="String">
+			<value>forward</value>
+		</instance>
+		<instance itemname="Resources\Plain" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw" type="String">
+			<value>plain</value>
+		</instance>
+	</package>
+</root>

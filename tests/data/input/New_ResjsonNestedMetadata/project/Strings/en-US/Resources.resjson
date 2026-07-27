@@ -1,0 +1,10 @@
+{
+    "Greeting": "Hello",
+    "_Greeting.comment": "translator note",
+    "Menu": {
+        "File": {
+            "Open": "Open",
+            "Close": "Close"
+        }
+    }
+}

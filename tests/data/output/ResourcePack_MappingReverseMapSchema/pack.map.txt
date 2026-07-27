@@ -1,0 +1,5 @@
+﻿[ResourceMetadata]
+"ResourceDimensions"		"language-en-us"
+
+[Files]
+"@@WORKING_DIR@@\pack.pri"			"resources.pri"

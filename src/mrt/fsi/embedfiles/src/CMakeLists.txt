@@ -1,0 +1,4 @@
+makepri_add_library(makepri_embedfilesindexer STATIC CEmbedFilesIndexer.cpp)
+add_library(makepri_resources_fsi_embedfiles ALIAS makepri_embedfilesindexer)
+
+target_link_libraries(makepri_embedfilesindexer PRIVATE WIL::WIL)

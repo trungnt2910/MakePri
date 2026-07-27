@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PriInfo>
+	<ResourceMap name="Application" uniqueName="ms-appx://Application/" version="1.0">
+		<VersionInfo version="1.0" checksum="-329524535" numScopes="2" numItems="2"/>
+		<ResourceMapSubtree name="Resources" index="1">
+			<NamedResource name="Farewell" index="1"/>
+			<NamedResource name="Greeting" index="0"/>
+		</ResourceMapSubtree>
+	</ResourceMap>
+</PriInfo>

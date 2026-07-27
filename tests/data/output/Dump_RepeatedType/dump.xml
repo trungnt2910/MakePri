@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PriRaw>
+	<Header magic="mrm_pri2" major="0" minor="1" totalSize="944" tocNumEntries="5" descriptorIndex="-1"/>
+	<Toc>
+		<TocEntry index="0" type="[mrm_decn_info]" flags="0" sectionFlags="0" size="136"/>
+		<TocEntry index="1" type="[mrm_pridescex]" flags="0" sectionFlags="0" size="72"/>
+		<TocEntry index="2" type="[mrm_hschemaex] " flags="0" sectionFlags="0" size="288"/>
+		<TocEntry index="3" type="[mrm_res_map2_]" flags="0" sectionFlags="0" size="160"/>
+		<TocEntry index="4" type="[mrm_dataitem] " flags="0" sectionFlags="0" size="80"/>
+	</Toc>
+	<Schema uniqueId="ms-appx://Application/" simpleName="Application">
+		<Version major="1" minor="0" checksum="-329524535" numScopes="2" numItems="2"/>
+	</Schema>
+	<ResourceMap uniqueId="ms-appx://Application/" simpleName="Application" numTotalValues="2" sizeInternalValueData="0" sizeLargeValueData="0"/>
+</PriRaw>

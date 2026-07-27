@@ -1,0 +1,4 @@
+makepri_add_library(makepri_priinfoindexer STATIC CPriInfoIndexer.cpp)
+add_library(makepri_resources_fsi_priinfo ALIAS makepri_priinfoindexer)
+
+target_link_libraries(makepri_priinfoindexer PRIVATE WIL::WIL)

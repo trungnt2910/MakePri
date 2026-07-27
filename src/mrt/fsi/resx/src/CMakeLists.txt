@@ -1,0 +1,4 @@
+makepri_add_library(makepri_resxindexer STATIC CResxIndexer.cpp CResxXmlConfig.cpp)
+add_library(makepri_resources_fsi_resx ALIAS makepri_resxindexer)
+
+target_link_libraries(makepri_resxindexer PRIVATE WIL::WIL)

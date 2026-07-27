@@ -1,0 +1,36 @@
+# Custom wrappers ensure that project targets consistently use MakePri headers, warning flags,
+# and static LLVM-MinGW runtimes. Third-party targets are deliberately unaffected.
+
+function(_makepri_target_add_warning_flags target)
+    target_compile_options(${target} PRIVATE -Wall -Werror -Wextra -Wpedantic -fms-extensions)
+endfunction()
+
+function(makepri_add_executable target)
+    add_executable(${target} ${ARGN})
+    target_include_directories(${target} PRIVATE ${MAKEPRI_INCLUDE_DIRECTORIES})
+    target_compile_definitions(${target} PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+    target_link_libraries(${target} PRIVATE MRTCore::mrmex)
+    if(NOT MAKEPRI_SANITIZER_PREVENT_STATIC_LINKING)
+        target_link_options(${target} PRIVATE -static)
+    endif()
+    _makepri_target_add_warning_flags(${target})
+    makepri_target_add_pdb(${target})
+    makepri_target_add_sanitizers(${target})
+    makepri_target_add_win32_definitions(${target})
+    makepri_target_install_sanitizers(${target})
+endfunction()
+
+function(makepri_add_unicode_executable target)
+    makepri_add_executable(${target} ${ARGN})
+    target_link_options(${target} PRIVATE -municode)
+endfunction()
+
+function(makepri_add_library target type)
+    add_library(${target} ${type} ${ARGN})
+    target_include_directories(${target} PUBLIC ${MAKEPRI_INCLUDE_DIRECTORIES})
+    target_compile_definitions(${target} PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+    target_link_libraries(${target} PRIVATE MRTCore::mrmex)
+    _makepri_target_add_warning_flags(${target})
+    makepri_target_add_win32_definitions(${target})
+    makepri_target_add_sanitizers(${target})
+endfunction()

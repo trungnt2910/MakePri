@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+	<package filename="resources.pri">
+		<link itemname="Resources\GreetingAlias" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw">
+			<linksto>Resources/Greeting</linksto>
+			<metadata type="comment">resource alias</metadata>
+		</link>
+		<instance itemname="Resources\Greeting" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw" type="String">
+			<value>Hello</value>
+		</instance>
+	</package>
+</root>

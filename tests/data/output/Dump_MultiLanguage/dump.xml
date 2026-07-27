@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PriInfo>
+	<PriHeader>
+		<WindowsEnvironment name="WinCore" version="1.2" checksum="1912541329"/>
+		<AutoMerge>false</AutoMerge>
+		<IsDeploymentMergeable>true</IsDeploymentMergeable>
+		<TargetOS version="10.0.0"/>
+		<ReverseMap>false</ReverseMap>
+	</PriHeader>
+	<QualifierInfo>
+		<Qualifiers>
+			<Qualifier name="Language" value="en-US" priority="700" scoreAsDefault="1.0" index="1"/>
+			<Qualifier name="Language" value="vi-VN" priority="700" scoreAsDefault="0.0" index="2"/>
+		</Qualifiers>
+		<QualifierSets>
+			<QualifierSet index="1">
+				<Qualifier name="Language" value="en-US" priority="700" scoreAsDefault="1.0" index="1"/>
+			</QualifierSet>
+			<QualifierSet index="2">
+				<Qualifier name="Language" value="vi-VN" priority="700" scoreAsDefault="0.0" index="2"/>
+			</QualifierSet>
+		</QualifierSets>
+		<Decisions>
+			<Decision index="2">
+				<QualifierSet index="2">
+					<Qualifier name="Language" value="vi-VN" priority="700" scoreAsDefault="0.0" index="2"/>
+				</QualifierSet>
+				<QualifierSet index="1">
+					<Qualifier name="Language" value="en-US" priority="700" scoreAsDefault="1.0" index="1"/>
+				</QualifierSet>
+			</Decision>
+		</Decisions>
+	</QualifierInfo>
+	<ResourceMap name="Application" primary="true" uniqueName="ms-appx://Application/" version="1.0">
+		<VersionInfo version="1.0" checksum="-329524535" numScopes="2" numItems="2"/>
+		<ResourceMapSubtree index="1" name="Resources">
+			<NamedResource name="Farewell" index="1" uri="ms-resource://Application/Resources/Farewell">
+				<Decision index="2">
+					<QualifierSet index="2">
+						<Qualifier name="Language" value="vi-VN" priority="700" scoreAsDefault="0.0" index="2"/>
+					</QualifierSet>
+					<QualifierSet index="1">
+						<Qualifier name="Language" value="en-US" priority="700" scoreAsDefault="1.0" index="1"/>
+					</QualifierSet>
+				</Decision>
+				<Candidate type="String">
+					<QualifierSet index="2">
+						<Qualifier name="Language" value="vi-VN" priority="700" scoreAsDefault="0.0" index="2"/>
+					</QualifierSet>
+					<Value>Tạm biệt</Value>
+				</Candidate>
+				<Candidate type="String">
+					<QualifierSet index="1">
+						<Qualifier name="Language" value="en-US" priority="700" scoreAsDefault="1.0" index="1"/>
+					</QualifierSet>
+					<Value>Goodbye</Value>
+				</Candidate>
+			</NamedResource>
+			<NamedResource name="Greeting" index="0" uri="ms-resource://Application/Resources/Greeting">
+				<Decision index="2">
+					<QualifierSet index="2">
+						<Qualifier name="Language" value="vi-VN" priority="700" scoreAsDefault="0.0" index="2"/>
+					</QualifierSet>
+					<QualifierSet index="1">
+						<Qualifier name="Language" value="en-US" priority="700" scoreAsDefault="1.0" index="1"/>
+					</QualifierSet>
+				</Decision>
+				<Candidate type="String">
+					<QualifierSet index="2">
+						<Qualifier name="Language" value="vi-VN" priority="700" scoreAsDefault="0.0" index="2"/>
+					</QualifierSet>
+					<Value>Xin chào</Value>
+				</Candidate>
+				<Candidate type="String">
+					<QualifierSet index="1">
+						<Qualifier name="Language" value="en-US" priority="700" scoreAsDefault="1.0" index="1"/>
+					</QualifierSet>
+					<Value>Hello</Value>
+				</Candidate>
+			</NamedResource>
+		</ResourceMapSubtree>
+	</ResourceMap>
+</PriInfo>

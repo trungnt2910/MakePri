@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+	<package filename="resources.pri">
+		<instance itemname="Files\Strings\Resources.resjson" qualifiers="Language-en-US" src="" type="Path">
+			<value>Strings\en-US\Resources.resjson</value>
+		</instance>
+	</package>
+</root>

@@ -1,0 +1,6 @@
+﻿[ResourceMetadata]
+"ResourceId"			"pack.language-vi"
+"ResourceDimensions"		"language-vi-vn"
+
+[Files]
+"@@WORKING_DIR@@\pack.language-vi.pri"			"resources.pri"

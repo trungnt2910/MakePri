@@ -1,0 +1,7 @@
+add_subdirectory(embedfiles)
+add_subdirectory(folder)
+add_subdirectory(prifile)
+add_subdirectory(priinfo)
+add_subdirectory(resfiles)
+add_subdirectory(resjson)
+add_subdirectory(resx)

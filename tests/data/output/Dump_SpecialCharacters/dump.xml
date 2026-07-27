@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PriInfo>
+	<ResourceMap name="Application" version="1.0" primary="true">
+		<Qualifiers>
+			<Language>en-US</Language>
+		</Qualifiers>
+		<ResourceMapSubtree name="Resources">
+			<NamedResource name="Café" uri="ms-resource://Application/Resources/Café">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>unicode</Value>
+				</Candidate>
+			</NamedResource>
+			<NamedResource name="Has Space" uri="ms-resource://Application/Resources/Has Space">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>space</Value>
+				</Candidate>
+			</NamedResource>
+			<NamedResource name="Has#Hash" uri="ms-resource://Application/Resources/Has#Hash">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>hash</Value>
+				</Candidate>
+			</NamedResource>
+			<NamedResource name="Has%Percent" uri="ms-resource://Application/Resources/Has%Percent">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>percent</Value>
+				</Candidate>
+			</NamedResource>
+			<NamedResource name="Has&amp;Ampersand" uri="ms-resource://Application/Resources/Has&amp;Ampersand">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>ampersand</Value>
+				</Candidate>
+			</NamedResource>
+			<NamedResource name="Has?Question" uri="ms-resource://Application/Resources/Has?Question">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>question</Value>
+				</Candidate>
+			</NamedResource>
+		</ResourceMapSubtree>
+	</ResourceMap>
+</PriInfo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PriInfo>
+	<ResourceMap name="Application" version="1.0" primary="true">
+		<Qualifiers>
+			<Language>en-US</Language>
+		</Qualifiers>
+		<ResourceMapSubtree name="Resources">
+			<NamedResource name="Farewell" uri="ms-resource://Application/Resources/Farewell">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>Goodbye</Value>
+				</Candidate>
+			</NamedResource>
+			<NamedResource name="Greeting" uri="ms-resource://Application/Resources/Greeting">
+				<Candidate qualifiers="Language-en-US" isDefault="true" type="String">
+					<Value>Hello</Value>
+				</Candidate>
+			</NamedResource>
+		</ResourceMapSubtree>
+	</ResourceMap>
+</PriInfo>

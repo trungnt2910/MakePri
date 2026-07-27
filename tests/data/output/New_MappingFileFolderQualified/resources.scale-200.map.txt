@@ -1,0 +1,7 @@
+﻿[ResourceMetadata]
+"ResourceId"			"resources.scale-200"
+"ResourceDimensions"		"scale-200"
+
+[Files]
+"@@WORKING_DIR@@\resources.scale-200.pri"			"resources.pri"
+"@@WORKING_DIR@@\project\Assets\logo.scale-200.txt"			"Assets\logo.scale-200.txt"

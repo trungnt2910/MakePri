@@ -1,0 +1,6 @@
+﻿[ResourceMetadata]
+"ResourceDimensions"		"language-en-us"
+
+[Files]
+"@@WORKING_DIR@@\resources.pri"			"resources.pri"
+"@@WORKING_DIR@@\project\Assets\logo.txt"			"Assets\logo.txt"

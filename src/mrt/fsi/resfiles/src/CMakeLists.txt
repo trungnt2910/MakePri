@@ -1,0 +1,4 @@
+makepri_add_library(makepri_resfilesindexer STATIC CResFilesIndexer.cpp)
+add_library(makepri_resources_fsi_resfiles ALIAS makepri_resfilesindexer)
+
+target_link_libraries(makepri_resfilesindexer PRIVATE WIL::WIL)

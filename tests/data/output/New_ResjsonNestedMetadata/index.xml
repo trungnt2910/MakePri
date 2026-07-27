@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+	<package filename="resources.pri">
+		<instance itemname="Resources\Menu\File\Open" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resjson" type="String">
+			<value>Open</value>
+		</instance>
+		<instance itemname="Resources\Menu\File\Close" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resjson" type="String">
+			<value>Close</value>
+		</instance>
+		<instance itemname="Resources\Greeting" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resjson" type="String">
+			<value>Hello</value>
+			<metadata type="comment">translator note</metadata>
+		</instance>
+	</package>
+</root>

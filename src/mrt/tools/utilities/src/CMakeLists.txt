@@ -1,0 +1,4 @@
+makepri_add_library(makepri_mrmutils STATIC XmlUtil.cpp)
+add_library(makepri_resources_xml ALIAS makepri_mrmutils)
+
+target_link_libraries(makepri_mrmutils PRIVATE shlwapi msxml6)

@@ -1,0 +1,51 @@
+#pragma once
+
+#include <algorithm>
+#include <cstdarg>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cwchar>
+#include <cwctype>
+#include <new>
+#include <string>
+#include <utility>
+
+#include <conio.h>
+#include <fcntl.h>
+#include <io.h>
+#include <resource.h>
+#include <rpc.h>
+#include <shlwapi.h>
+#include <strsafe.h>
+#include <windows.h>
+#include <wil/resource.h>
+#include <wil/result.h>
+
+#include <XmlUtil.h>
+#include <mrm/common/Base.h>
+#include <mrm/BaseInternal.h>
+#include <mrm/common/BaseInternal.h>
+#include <mrm/common/file/FileBase.h>
+#include <mrm/common/file/MrmFiles.h>
+#include <mrm/common/MrmProfileData.h>
+#include <mrm/DefObject.h>
+#include <mrm/Results.h>
+#include <mrm/Atoms.h>
+#include <mrm/Collections.h>
+#include <mrm/MrmQualifiers.h>
+#include <mrm/readers/MrmManagers.h>
+#include <mrm/readers/MrmReaders.h>
+#include <mrmmin/StringResult.h>
+
+#include <IndexerBase.h>
+#include <QualifierApplicator.h>
+#include <XmlHelper.h>
+#include <ClientProfileBase.h>
+#include <DefStatus.h>
+#include <CResourceIndexInternal.h>
+#include <MrtMap.h>
+#include <Log.h>
+#include <ParameterManager.h>
+#include <ParameterParser.h>
+#include <MrmXml.h>

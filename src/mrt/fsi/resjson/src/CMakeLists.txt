@@ -1,0 +1,4 @@
+makepri_add_library(makepri_resjsonindexer STATIC CResJsonIndexer.cpp)
+add_library(makepri_resources_fsi_resjson ALIAS makepri_resjsonindexer)
+
+target_link_libraries(makepri_resjsonindexer PRIVATE WIL::WIL makepri_jsonparser)

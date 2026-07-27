@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Plain" xml:space="preserve">
+        <value>plain</value>
+    </data>
+    <data name="Forward/Leaf" xml:space="preserve">
+        <value>forward</value>
+    </data>
+    <data name="Back\Leaf" xml:space="preserve">
+        <value>back</value>
+    </data>
+    <data name="Mixed\Back/Forward" xml:space="preserve">
+        <value>mixed</value>
+    </data>
+</root>

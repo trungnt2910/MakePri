@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+	<package filename="resources.pri">
+		<instance itemname="Resources\Farewell" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw" type="String">
+			<value>Goodbye</value>
+		</instance>
+		<instance itemname="Resources\Greeting" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resw" type="String">
+			<value>Hello</value>
+		</instance>
+	</package>
+</root>

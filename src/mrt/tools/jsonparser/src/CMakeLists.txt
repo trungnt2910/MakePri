@@ -1,0 +1,2 @@
+makepri_add_library(makepri_jsonparser STATIC Json.cpp JsonValue.cpp)
+add_library(makepri_resources_json ALIAS makepri_jsonparser)

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+	<package filename="resources.pri">
+		<instance itemname="Resources\Greeting�(" qualifiers="Language-en-US" src="@@WORKING_DIR@@\project\Strings\en-US\Resources.resjson" type="String">
+			<value>Hello</value>
+		</instance>
+	</package>
+</root>
