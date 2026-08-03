@@ -37,6 +37,12 @@ namespace Microsoft::Resources::Indexers
 class CItemInstanceEntry
 {
 public:
+    typedef enum tagIIE_FLAGS
+    {
+        IIE_INDEXENTRY = 1,
+        IIE_TRAVERSEENTRY = 2,
+    } IIE_FLAGS;
+
     ~CItemInstanceEntry();
 
     static CItemInstanceEntry* NewForEmbeddedData(

@@ -102,7 +102,7 @@ HRESULT CBootStrapIndexer::_Init(
                 MrmEnvironment::ResourceItemType_Path,
                 MrmEnvironment::ResourceValueType_Utf16Path,
                 _baseQualifierSetIndex,
-                2,
+                0,
                 pStatus);
         }
     }
@@ -392,14 +392,16 @@ HRESULT CBootStrapIndexer::CreateStringEntry(
     IDefStatusEx* const pStatus)
 {
     static_cast<void>(pSource);
-    static_cast<void>(pItemName);
     static_cast<void>(resourceItemType);
     static_cast<void>(resourceValueType);
-    static_cast<void>(ulActionFlags);
     pStatus->DiagnosticLogWithPrefixA("Start - ", __FUNCTION__);
-    wcsnlen(L"", MAX_PATH + 1);
+    const wchar_t* pEntryName = pItemName;
+    if (pEntryName == nullptr || wcsnlen(pEntryName, MAX_PATH) == 0)
+    {
+        pEntryName = L"";
+    }
     const wchar_t* pEntryValue = pValue;
-    if (pEntryValue == nullptr || wcsnlen(pEntryValue, MAX_PATH + 1) == 0)
+    if (pEntryValue == nullptr || wcsnlen(pEntryValue, MAX_PATH) == 0)
     {
         pEntryValue = L"";
     }
@@ -411,12 +413,12 @@ HRESULT CBootStrapIndexer::CreateStringEntry(
         }
         _pItemInstanceEntry = CItemInstanceEntry::NewForString(
             L"Files",
-            L"",
+            pEntryName,
             MrmEnvironment::ResourceItemType_Path,
             MrmEnvironment::ResourceValueType_Utf16Path,
             pEntryValue,
             qualifierSetIndex,
-            2,
+            ulActionFlags | CItemInstanceEntry::IIE_TRAVERSEENTRY,
             nullptr,
             nullptr,
             pStatus);
