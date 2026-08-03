@@ -12,8 +12,7 @@ It reuses Microsoft's open-source
 [MRT Core](https://github.com/Microsoft/WindowsAppSDK/tree/main/dev/MRTCore) and reimplements
 the missing `MrmIndexer` and `MakePri` CLI components.
 
-While the tool is currently Windows-only, we aim to build a UNIX port, allowing it to be used in the
-cross-compilation of UWP applications.
+Unlike the official tool, this version is cross-platform and has been tested on Linux.
 
 ## Building
 
