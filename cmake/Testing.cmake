@@ -1,3 +1,4 @@
+include(CTest)
 include(GoogleTest)
 
 function(makepri_add_test_executable target)
@@ -33,7 +34,7 @@ function(makepri_add_integration_test_executable target)
     makepri_target_add_pdb(${target})
     makepri_target_add_sanitizers(${target})
     makepri_target_install_sanitizers(${target})
-    target_link_libraries(${target} PRIVATE GTest::gtest)
+    target_link_libraries(${target} PRIVATE GTest::gtest uni-algo::uni-algo)
 
     set(
         integration_arguments
@@ -49,6 +50,16 @@ function(makepri_add_integration_test_executable target)
     endif()
     if(MAKEPRI_UPDATE_INTEGRATION_OUTPUTS)
         list(APPEND integration_arguments --makepri-update-outputs)
+    endif()
+    if(NOT WIN32)
+        list(
+            APPEND
+            integration_arguments
+            --makepri-exit-code-bits
+            8
+            --makepri-forward-slash-compat
+            --makepri-utf8
+        )
     endif()
 
     gtest_discover_tests(${target} DISCOVERY_MODE PRE_TEST EXTRA_ARGS ${integration_arguments})

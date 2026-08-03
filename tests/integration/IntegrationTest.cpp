@@ -2,6 +2,8 @@
 
 #include "IntegrationTest.h"
 
+#include <uni_algo/conv.h>
+
 namespace MakePri::Tests
 {
 
@@ -9,11 +11,11 @@ void IntegrationTest::SetUp()
 {
     m_originalDirectory = std::filesystem::current_path();
     const testing::TestInfo* const testInfo = testing::UnitTest::GetInstance()->current_test_info();
-    std::random_device random;
+    static std::random_device randomDevice;
     for (std::size_t attempt = 0; attempt < 100; ++attempt)
     {
         const std::string directoryName = "makepri-integration-" + std::string(testInfo->test_suite_name()) + "-" + testInfo->name() + "-" +
-                                          std::to_string(random()) + "-" + std::to_string(random());
+                                          std::to_string(randomDevice()) + "-" + std::to_string(randomDevice());
         const std::filesystem::path candidate = std::filesystem::temp_directory_path() / directoryName;
         std::error_code error;
         if (std::filesystem::create_directory(candidate, error))
@@ -51,6 +53,12 @@ struct ProcessResult
     std::map<std::filesystem::path, std::vector<std::byte>> outputFiles;
     std::map<std::filesystem::path, std::string> outputTextFiles;
 };
+
+std::uint32_t ExitCodeMask()
+{
+    const auto bits = static_cast<std::uint32_t>(g_integrationConfiguration.exitCodeBits);
+    return bits == 32 ? std::numeric_limits<std::uint32_t>::max() : (std::uint32_t {1} << bits) - 1;
+}
 
 std::vector<std::byte> ReadFileBytes(const std::filesystem::path& path)
 {
@@ -152,8 +160,13 @@ std::string MakeCommandLine(const std::filesystem::path& executable, const std::
     std::string commandLine = QuoteArgument(executable.string());
     for (const std::string& argument : arguments)
     {
+        std::string compatibleArgument = argument;
+        if (g_integrationConfiguration.forwardSlashCompatibility && compatibleArgument.starts_with('/'))
+        {
+            compatibleArgument.front() = '-';
+        }
         commandLine.push_back(' ');
-        commandLine.append(QuoteArgument(argument));
+        commandLine.append(QuoteArgument(compatibleArgument));
     }
     return commandLine;
 }
@@ -186,8 +199,56 @@ void CopyInputs(const IntegrationTestCase& testCase, const std::filesystem::path
 
 std::string EncodeUtf16(const std::string_view value)
 {
-    const std::wstring wide = std::filesystem::path(std::string(value)).wstring();
-    return {reinterpret_cast<const char*>(wide.data()), wide.size() * sizeof(wchar_t)};
+    const std::u16string utf16 = una::utf8to16<char, char16_t>(value);
+    std::string bytes;
+    bytes.reserve(utf16.size() * sizeof(char16_t));
+    for (const char16_t codeUnit : utf16)
+    {
+        bytes.push_back(static_cast<char>(codeUnit & 0xff));
+        bytes.push_back(static_cast<char>((codeUnit >> 8) & 0xff));
+    }
+    return bytes;
+}
+
+void ConvertUtf16ToUtf8(std::vector<std::byte>* const contents)
+{
+    if (!g_integrationConfiguration.utf8Console || contents->empty())
+    {
+        return;
+    }
+    if ((contents->size() % sizeof(char16_t)) != 0)
+    {
+        ADD_FAILURE() << "Saved console output has an incomplete UTF-16 code unit";
+        return;
+    }
+
+    std::u16string utf16;
+    utf16.reserve(contents->size() / sizeof(char16_t));
+    for (std::size_t index = 0; index < contents->size(); index += sizeof(char16_t))
+    {
+        const auto low = std::to_integer<unsigned char>((*contents)[index]);
+        const auto high = std::to_integer<unsigned char>((*contents)[index + 1]);
+        utf16.push_back(static_cast<char16_t>(low | (static_cast<unsigned>(high) << 8)));
+    }
+    const std::string utf8 = una::utf16to8<char16_t, char>(utf16);
+    contents->assign(reinterpret_cast<const std::byte*>(utf8.data()), reinterpret_cast<const std::byte*>(utf8.data() + utf8.size()));
+}
+
+void ConvertUtf8ToUtf16(std::vector<std::byte>* const contents)
+{
+    if (!g_integrationConfiguration.utf8Console || contents->empty())
+    {
+        return;
+    }
+
+    const std::string_view utf8(reinterpret_cast<const char*>(contents->data()), contents->size());
+    const std::string utf16 = EncodeUtf16(utf8);
+    contents->assign(reinterpret_cast<const std::byte*>(utf16.data()), reinterpret_cast<const std::byte*>(utf16.data() + utf16.size()));
+}
+
+std::string EncodeConsoleText(const std::string_view value)
+{
+    return g_integrationConfiguration.utf8Console ? std::string(value) : EncodeUtf16(value);
 }
 
 void ExpandStreamKeys(
@@ -198,7 +259,7 @@ void ExpandStreamKeys(
     std::string text(reinterpret_cast<const char*>(contents->data()), contents->size());
     for (const auto& [key, configuredValue] : replacements)
     {
-        ReplaceAll(&text, EncodeUtf16(key), EncodeUtf16(ResolveOutputValue(key, configuredValue, workingDirectory)));
+        ReplaceAll(&text, EncodeConsoleText(key), EncodeConsoleText(ResolveOutputValue(key, configuredValue, workingDirectory)));
     }
     contents->assign(reinterpret_cast<const std::byte*>(text.data()), reinterpret_cast<const std::byte*>(text.data() + text.size()));
 }
@@ -211,7 +272,7 @@ void ContractStreamValues(
     std::string text(reinterpret_cast<const char*>(contents->data()), contents->size());
     for (const auto& [key, configuredValue] : replacements)
     {
-        ReplaceAll(&text, EncodeUtf16(ResolveOutputValue(key, configuredValue, workingDirectory)), EncodeUtf16(key));
+        ReplaceAll(&text, EncodeConsoleText(ResolveOutputValue(key, configuredValue, workingDirectory)), EncodeConsoleText(key));
     }
     contents->assign(reinterpret_cast<const std::byte*>(text.data()), reinterpret_cast<const std::byte*>(text.data() + text.size()));
 }
@@ -231,7 +292,8 @@ ProcessResult RunProcess(
     const std::string commandLine =
         MakeCommandLine(executable, testCase.arguments) + " < .makepri.stdin > .makepri.stdout 2> .makepri.stderr";
     ProcessResult result;
-    result.exitCode = static_cast<std::uint32_t>(std::system(commandLine.c_str()));
+    const std::uint32_t systemResult = static_cast<std::uint32_t>(std::system(commandLine.c_str()));
+    result.exitCode = g_integrationConfiguration.exitCodeBits == 32 ? systemResult : (systemResult >> 8) & ExitCodeMask();
     result.standardOutput = ReadFileBytes(standardOutputPath);
     result.standardError = ReadFileBytes(standardErrorPath);
     for (const std::filesystem::path& relativePath : testCase.outputFiles)
@@ -287,10 +349,12 @@ ProcessResult ReadSamples(const IntegrationTestCase& testCase, const std::filesy
     ProcessResult result;
     const std::vector<std::byte> exitCodeBytes = ReadFileBytes(sampleDirectory / "exitcode.txt");
     std::string exitCodeText(reinterpret_cast<const char*>(exitCodeBytes.data()), exitCodeBytes.size());
-    result.exitCode = static_cast<std::uint32_t>(std::stoul(exitCodeText));
+    result.exitCode = static_cast<std::uint32_t>(std::stoul(exitCodeText)) & ExitCodeMask();
     result.standardOutput = ReadFileBytes(sampleDirectory / "stdout.txt");
+    ConvertUtf16ToUtf8(&result.standardOutput);
     ExpandStreamKeys(&result.standardOutput, testCase.replacements, workingDirectory);
     result.standardError = ReadFileBytes(sampleDirectory / "stderr.txt");
+    ConvertUtf16ToUtf8(&result.standardError);
     ExpandStreamKeys(&result.standardError, testCase.replacements, workingDirectory);
     for (const std::filesystem::path& relativePath : testCase.outputFiles)
     {
@@ -322,9 +386,11 @@ void WriteSamples(
     WriteFileBytes(sampleDirectory / "stdin.txt", standardInput);
     std::vector<std::byte> standardOutput = result.standardOutput;
     ContractStreamValues(&standardOutput, testCase.replacements, workingDirectory);
+    ConvertUtf8ToUtf16(&standardOutput);
     WriteFileBytes(sampleDirectory / "stdout.txt", standardOutput);
     std::vector<std::byte> standardError = result.standardError;
     ContractStreamValues(&standardError, testCase.replacements, workingDirectory);
+    ConvertUtf8ToUtf16(&standardError);
     WriteFileBytes(sampleDirectory / "stderr.txt", standardError);
     for (const auto& [relativePath, contents] : result.outputFiles)
     {

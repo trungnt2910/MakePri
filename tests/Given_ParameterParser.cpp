@@ -24,16 +24,16 @@ TEST(Given_ParameterParser, When_AllRecoveredOptionsAreValid_EveryFieldIsAssigne
     InputArgs inputArgs {};
     wchar_t executable[] = L"makepri.exe";
     wchar_t command[] = L"nEw";
-    wchar_t projectRootOption[] = L"/pr";
+    wchar_t projectRootOption[] = L"-pr";
     wchar_t projectRoot[] = L"C:\\project";
     wchar_t configOption[] = L"-ConfigXML";
     wchar_t config[] = L"priconfig.xml";
-    wchar_t dumpTypeOption[] = L"/dt";
+    wchar_t dumpTypeOption[] = L"-dt";
     wchar_t dumpType[] = L"Detailed";
-    wchar_t mappingOption[] = L"/mf";
+    wchar_t mappingOption[] = L"-mf";
     wchar_t mapping[] = L"APPX";
-    wchar_t reverseMap[] = L"/rm";
-    wchar_t platformOption[] = L"/pv";
+    wchar_t reverseMap[] = L"-rm";
+    wchar_t platformOption[] = L"-pv";
     wchar_t platform[] = L"10.0.0.5";
     wchar_t* argv[] {
         executable,
@@ -67,9 +67,9 @@ TEST(Given_ParameterParser, When_DumpTypeIsRepeated_TheLastValueWins)
     InputArgs inputArgs {};
     wchar_t executable[] = L"makepri.exe";
     wchar_t command[] = L"dump";
-    wchar_t firstOption[] = L"/dt";
+    wchar_t firstOption[] = L"-dt";
     wchar_t firstValue[] = L"Detailed";
-    wchar_t secondOption[] = L"/dt";
+    wchar_t secondOption[] = L"-dt";
     wchar_t secondValue[] = L"Summary";
     wchar_t* argv[] {
         executable,
@@ -90,9 +90,9 @@ TEST(Given_ParameterParser, When_PointerOptionIsRepeated_DuplicateIsReturned)
     InputArgs inputArgs {};
     wchar_t executable[] = L"makepri.exe";
     wchar_t command[] = L"dump";
-    wchar_t firstOption[] = L"/if";
+    wchar_t firstOption[] = L"-if";
     wchar_t firstValue[] = L"one.pri";
-    wchar_t secondOption[] = L"/IndexFile";
+    wchar_t secondOption[] = L"-IndexFile";
     wchar_t secondValue[] = L"two.pri";
     wchar_t* argv[] {
         executable,
@@ -113,7 +113,7 @@ TEST(Given_ParameterParser, When_OutputOptionsValueIsMissing_ItsErrorFlagIsSet)
     InputArgs inputArgs {};
     wchar_t executable[] = L"makepri.exe";
     wchar_t command[] = L"dump";
-    wchar_t option[] = L"/oo";
+    wchar_t option[] = L"-oo";
     wchar_t* argv[] {executable, command, option};
 
     ParameterParser parser(inputArgs);

@@ -253,7 +253,7 @@ const wchar_t* CBootStrapIndexer::GetProjectRoot(IDefStatusEx* const pStatus)
 
 HRESULT CBootStrapIndexer::_ProcessConditionsNode(IXMLDOMNode* const pConditionsNode, IDefStatusEx* const pStatus)
 {
-    std::uint32_t length = 0;
+    LONG length = 0;
     int qualifierSetIndex = 0;
     IXMLDOMNodeList* children = nullptr;
     IXMLDOMNode* child = nullptr;
@@ -265,12 +265,12 @@ HRESULT CBootStrapIndexer::_ProcessConditionsNode(IXMLDOMNode* const pConditions
     if (helper != nullptr)
     {
         helper->TryGetChildren(L"qualifier", pStatus, &children);
-        children->get_length(reinterpret_cast<LONG*>(&length));
+        children->get_length(&length);
         CQualifierApplicator::CQualifierSetBuilder* builder = nullptr;
         result = _pQualifierApplicator->GetQualifierSetBuilder(_baseQualifierSetIndex, pStatus, &builder);
         if (SUCCEEDED(result))
         {
-            for (int index = 0; index < static_cast<int>(length); ++index)
+            for (LONG index = 0; index < length; ++index)
             {
                 result = children->get_item(index, &child);
                 if (SUCCEEDED(result))
@@ -330,7 +330,7 @@ HRESULT CBootStrapIndexer::_ProcessConditionsNode(IXMLDOMNode* const pConditions
 
 HRESULT CBootStrapIndexer::_ProcessUltimateFallbackNode(IXMLDOMNode* const pUltFallbackNode, IDefStatusEx* const pStatus)
 {
-    std::uint32_t length = 0;
+    LONG length = 0;
     IXMLDOMNodeList* children = nullptr;
     IXMLDOMNode* child = nullptr;
     pStatus->DiagnosticLogWithPrefixA("Start - ", __FUNCTION__);
@@ -340,8 +340,8 @@ HRESULT CBootStrapIndexer::_ProcessUltimateFallbackNode(IXMLDOMNode* const pUltF
     if (helper != nullptr)
     {
         result = helper->TryGetChildren(L"qualifier", pStatus, &children);
-        children->get_length(reinterpret_cast<LONG*>(&length));
-        for (int index = 0; SUCCEEDED(result) && index < static_cast<int>(length); ++index)
+        children->get_length(&length);
+        for (LONG index = 0; SUCCEEDED(result) && index < length; ++index)
         {
             result = children->get_item(index, &child);
             if (SUCCEEDED(result) && child != nullptr)

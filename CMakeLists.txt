@@ -4,7 +4,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 set(
     MAKEPRI_INCLUDE_DIRECTORIES
-    "${PROJECT_SOURCE_DIR}/src/compat/win32/include"
     "${PROJECT_SOURCE_DIR}/src/mrt/fsi/embedfiles/include"
     "${PROJECT_SOURCE_DIR}/src/mrt/fsi/folder/include"
     "${PROJECT_SOURCE_DIR}/src/mrt/fsi/prifile/include"
@@ -24,17 +23,20 @@ set(
 
 include(cmake/Architecture.cmake)
 
-include(cmake/ThirdParty.cmake)
+include(cmake/Compat.cmake)
 
 include(cmake/PDB.cmake)
 include(cmake/Sanitizers.cmake)
-include(cmake/Win32.cmake)
+include(cmake/Resources.cmake)
 
 include(cmake/Targets.cmake)
+
+include(cmake/Testing.cmake)
+
+include(cmake/ThirdParty.cmake)
 
 add_subdirectory(src)
 
 if(BUILD_TESTING)
-    include(cmake/Testing.cmake)
     add_subdirectory(tests)
 endif()

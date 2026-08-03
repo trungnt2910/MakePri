@@ -161,7 +161,7 @@ HRESULT CXmlHelper::Init(
     result = _GetNodeList(pInitNodeNameStr, pStatus, &nodes);
     if (SUCCEEDED(result))
     {
-        long length = 0;
+        LONG length = 0;
         nodes->get_length(&length);
         if (length <= 0)
         {
@@ -292,7 +292,7 @@ HRESULT CXmlHelper::ValidateAgainstSchema(const wchar_t* const pSchema, IDefStat
                                             result = ownerDocument3->validateNode(_pDomNode, &parseError);
                                             if (SUCCEEDED(result))
                                             {
-                                                long errorCode = 0;
+                                                LONG errorCode = 0;
                                                 result = parseError->get_errorCode(&errorCode);
                                                 if (SUCCEEDED(result))
                                                 {
@@ -353,7 +353,7 @@ HRESULT CXmlHelper::ValidateChildNodeAgainstChildSchema(
     HRESULT result = TryGetChildren(L"indexer-config", pStatus, &children);
     if (result == S_OK)
     {
-        long length = 0;
+        LONG length = 0;
         result = children->get_length(&length);
         if (FAILED(result) || length <= 0)
         {
@@ -361,7 +361,7 @@ HRESULT CXmlHelper::ValidateChildNodeAgainstChildSchema(
         }
         else
         {
-            for (long index = 0; index < length; ++index)
+            for (LONG index = 0; index < length; ++index)
             {
                 IXMLDOMNode* child = nullptr;
                 result = children->get_item(index, &child);
@@ -556,7 +556,7 @@ void CXmlHelper::_WriteSchemaErrorEvent(IXMLDOMParseError* const pError, const w
     if (pError != nullptr)
     {
         BSTR reason;
-        long line;
+        LONG line;
         pError->get_reason(&reason);
         pError->get_line(&line);
         pStatus->SetError(E_DEF_XML_SCHEMA_VALIDATION_FAIL, _pXmlFileName, static_cast<std::uint32_t>(line), reason);

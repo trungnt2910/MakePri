@@ -287,12 +287,12 @@ HRESULT CResxIndexer::ProcessPayload(
             result = helper->TryGetChildren(L"data", status, &children);
             if (SUCCEEDED(result) && children != nullptr)
             {
-                long length = 0;
+                LONG length = 0;
                 result = children->get_length(&length);
                 if (SUCCEEDED(result) && length > 0)
                 {
                     IXMLDOMNode* child = nullptr;
-                    for (long index = 0; index < length; ++index)
+                    for (LONG index = 0; index < length; ++index)
                     {
                         result = children->get_item(index, &child);
                         if (SUCCEEDED(result) && child != nullptr)

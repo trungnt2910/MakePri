@@ -1,0 +1,5 @@
+if(NOT WIN32)
+    add_subdirectory(wchar)
+    add_subdirectory(wil)
+    add_subdirectory(win32)
+endif()

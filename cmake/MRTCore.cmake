@@ -1,36 +1,19 @@
 function(_mrtcore_target_options target)
     target_compile_definitions(
         ${target}
-        PUBLIC #
-            # SAL
-            # The raw definitions are not available in MinGW.
-            # The public headers are polluted with this.
-            __deref_opt_out_opt=SAL__deref_opt_out_opt
-            __deref_out_bcount=SAL__deref_out_bcount
-            __field_ecount=_Field_size_
-            __in=SAL__in
-            __in_bcount_opt=SAL__in_bcount_opt
-            __in_ecount_opt=SAL__in_ecount_opt
-            __out=SAL__out
-            __out_ecount_opt=SAL__out_ecount_opt
         PRIVATE #
             # Built-in
             _LIB
             _UNICODE
             _USRDLL
             _WINDOWS
-            UNICODE #
-            # Missing in MinGW
-            ERROR_MRM_UNSUPPORTED_FILE_TYPE_FOR_MERGE=15141L
-            ERROR_MRM_UNSUPPORTED_FILE_TYPE_FOR_LOAD_UNLOAD_PRI_FILE=15142L
-            ERROR_PRI_MERGE_VERSION_MISMATCH=15148L
-            InterlockedExchangeNoFence=_InterlockedExchange
-            SIZE_T_MAX=SIZE_MAX
+            UNICODE
     )
     target_compile_options(
         ${target}
         PRIVATE
             -fms-extensions
+            -fshort-wchar
             -w
             "SHELL:-include type_traits"
             "-Dmin(a,b)=(((a)<(b))?(a):(b))"
@@ -39,8 +22,22 @@ function(_mrtcore_target_options target)
     target_include_directories(
         ${target}
         SYSTEM
-        PUBLIC "${CMAKE_SOURCE_DIR}/src/compat/win32/include"
+        BEFORE
+        PRIVATE "${CMAKE_SOURCE_DIR}/compat/win32/include"
     )
+    if(NOT WIN32)
+        # Case sensitivity hacks for MRTCore.
+        # TODO: Patch upstream to fix this.
+        target_include_directories(
+            ${target}
+            SYSTEM
+            BEFORE
+            PUBLIC "${CMAKE_SOURCE_DIR}/compat/case/include"
+        )
+        # MRTCore requires a 32-bit DEFRESULT but uses long.
+        # At the point of the typedef, LONG is not accessible.
+        target_compile_definitions(${target} PUBLIC DEFRESULT=int)
+    endif()
 endfunction()
 
 function(mrtcore_add_targets windows_app_sdk_source_dir)
@@ -102,6 +99,9 @@ function(mrtcore_add_targets windows_app_sdk_source_dir)
         PRIVATE "${mrm_source_dir}/mrmmin"
     )
     target_link_libraries(mrtcore_min PUBLIC WIL::WIL)
+    if(NOT WIN32)
+        target_link_libraries(mrtcore_min PUBLIC "$<LINK_LIBRARY:WHOLE_ARCHIVE,compat_win32>")
+    endif()
     _mrtcore_target_options(mrtcore_min)
 
     add_library(

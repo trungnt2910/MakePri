@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <filesystem>
 #include <map>
 #include <string>
@@ -19,6 +20,9 @@ struct IntegrationConfiguration
     std::filesystem::path officialMakePri;
     std::filesystem::path inputRoot;
     std::filesystem::path outputRoot;
+    int exitCodeBits = 32;
+    bool forwardSlashCompatibility = false;
+    bool utf8Console = false;
     bool updateOutputs = false;
 };
 

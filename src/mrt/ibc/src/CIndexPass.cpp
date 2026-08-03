@@ -252,7 +252,7 @@ HRESULT CIndexPass::_ParseNode(IXMLDOMNode* const pIndexPassNode, IDefStatusEx* 
     IXMLDOMNodeList* pNodeList = nullptr;
     helper.TryGetChildren(L"indexer-config", pStatus, &pNodeList);
 
-    long length;
+    LONG length;
     HRESULT result = pNodeList->get_length(&length);
     if (length > 0)
     {
@@ -266,11 +266,11 @@ HRESULT CIndexPass::_ParseNode(IXMLDOMNode* const pIndexPassNode, IDefStatusEx* 
 HRESULT CIndexPass::_ProcessIndexerNodes(IXMLDOMNodeList* const pNodeList, IDefStatusEx* const pStatus)
 {
     pStatus->DiagnosticLogWithPrefixA("Start - ", __FUNCTION__);
-    long length;
+    LONG length;
     HRESULT result = pNodeList->get_length(&length);
     if (SUCCEEDED(result))
     {
-        for (int index = 0; index < length; ++index)
+        for (LONG index = 0; index < length; ++index)
         {
             IXMLDOMNode* node;
             result = pNodeList->get_item(index, &node);
@@ -442,11 +442,11 @@ HRESULT CIndexPass::_ParseAllowedNodes(IXMLDOMNode* const pIndexNode, IDefStatus
         result = defaultHelper.TryGetChildren(L"qualifier", pStatus, &qualifiers);
         if (SUCCEEDED(result) && qualifiers != nullptr)
         {
-            long length;
+            LONG length;
             result = qualifiers->get_length(&length);
             if (SUCCEEDED(result))
             {
-                int index = 0;
+                LONG index = 0;
                 do
                 {
                     if (index >= length)
@@ -496,10 +496,10 @@ HRESULT CIndexPass::_ParseAllowedNodeQualifierValues(IXMLDOMNode* const pQualifi
             result = allowedHelper.TryGetChildren(valueNodeName.c_str(), pStatus, &valuesNodes);
             if (SUCCEEDED(result) && valuesNodes != nullptr)
             {
-                long length;
+                LONG length;
                 result = valuesNodes->get_length(&length);
                 std::set<std::wstring> values;
-                for (int index = 0; SUCCEEDED(result) && index < length; ++index)
+                for (LONG index = 0; SUCCEEDED(result) && index < length; ++index)
                 {
                     IXMLDOMNode* valueNode = nullptr;
                     result = valuesNodes->get_item(index, &valueNode);

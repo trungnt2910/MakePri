@@ -278,7 +278,7 @@ HRESULT CPriSchemaReader::ParseResourceMapSubtreeNode(const wchar_t* const paren
     }
     else
     {
-        scopeIndex = static_cast<std::uint32_t>(static_cast<long>(index));
+        scopeIndex = static_cast<std::uint32_t>(static_cast<LONG>(index));
     }
 
     IXMLDOMNodeList* children = nullptr;
@@ -391,7 +391,7 @@ HRESULT CPriSchemaReader::ParseNamedResourceNode(const wchar_t* const parentName
     }
     else
     {
-        itemIndex = static_cast<std::uint32_t>(static_cast<long>(index));
+        itemIndex = static_cast<std::uint32_t>(static_cast<LONG>(index));
     }
 
     if (SUCCEEDED(result))

@@ -736,11 +736,11 @@ HRESULT CHIndexerBase::ParsePackagingNode(IXMLDOMNode* const root, IDefStatusEx*
         {
             DefStatusEx childStatus;
             _eRpMode = ResourcePackageMode::FatPack;
-            std::uint32_t numberOfNodes = 0;
+            LONG numberOfNodes = 0;
             IXMLDOMNodeList* packageNodes = nullptr;
             CXmlHelper packagingXml(packagingNode);
             result = packagingXml.TryGetChildren(L"autoResourcePackage", &childStatus, &packageNodes);
-            packageNodes->get_length(reinterpret_cast<LONG*>(&numberOfNodes));
+            packageNodes->get_length(&numberOfNodes);
             if (static_cast<int>(numberOfNodes) > 0)
             {
                 _eRpMode = ResourcePackageMode::AutoQualifier;
@@ -754,7 +754,7 @@ HRESULT CHIndexerBase::ParsePackagingNode(IXMLDOMNode* const root, IDefStatusEx*
                 result = packagingXml.TryGetChildren(L"resourcePackage", &childStatus, &packageNodes);
                 if (SUCCEEDED(result))
                 {
-                    packageNodes->get_length(reinterpret_cast<LONG*>(&numberOfNodes));
+                    packageNodes->get_length(&numberOfNodes);
                     if (static_cast<int>(numberOfNodes) > 0)
                     {
                         if (_eRpMode != ResourcePackageMode::FatPack)
@@ -855,9 +855,9 @@ HRESULT CHIndexerBase::_ParseAutoResourcePackageNodeList(IXMLDOMNodeList* const 
 
     status->DiagnosticLogWithPrefixA("Start - ", __FUNCTION__);
     HRESULT result = S_OK;
-    std::uint32_t numberOfNodes = 0;
-    nodes->get_length(reinterpret_cast<LONG*>(&numberOfNodes));
-    for (int index = 0; index < static_cast<int>(numberOfNodes); ++index)
+    LONG numberOfNodes = 0;
+    nodes->get_length(&numberOfNodes);
+    for (LONG index = 0; index < numberOfNodes; ++index)
     {
         IXMLDOMNode* node = nullptr;
         result = nodes->get_item(index, &node);
@@ -935,8 +935,8 @@ HRESULT CHIndexerBase::_ParseAutoPackagesNode(IXMLDOMNode* const node, const wch
         result = autoPackagesXml.TryGetChildren(valueNodeName.c_str(), status, &valueNodes);
         if (SUCCEEDED(result) && (valueNodes != nullptr))
         {
-            std::uint32_t numberOfNodes = 0;
-            result = valueNodes->get_length(reinterpret_cast<LONG*>(&numberOfNodes));
+            LONG numberOfNodes = 0;
+            result = valueNodes->get_length(&numberOfNodes);
             if (static_cast<int>(numberOfNodes) <= 0)
             {
                 status->SetError(E_DEF_XML_NODE_NOT_FOUND, valueNodeName.c_str());
@@ -944,7 +944,7 @@ HRESULT CHIndexerBase::_ParseAutoPackagesNode(IXMLDOMNode* const node, const wch
             else
             {
                 std::set<std::wstring> qualifierValues;
-                for (int index = 0; SUCCEEDED(result) && (index < static_cast<int>(numberOfNodes)); ++index)
+                for (LONG index = 0; SUCCEEDED(result) && index < numberOfNodes; ++index)
                 {
                     IXMLDOMNode* valueNode = nullptr;
                     result = valueNodes->get_item(index, &valueNode);
@@ -1000,9 +1000,9 @@ HRESULT CHIndexerBase::_ParseManualResourcePackageNodeList(IXMLDOMNodeList* cons
 
     status->DiagnosticLogWithPrefixA("Start - ", __FUNCTION__);
     HRESULT result = S_OK;
-    std::uint32_t numberOfNodes = 0;
-    nodes->get_length(reinterpret_cast<LONG*>(&numberOfNodes));
-    for (int index = 0; index < static_cast<int>(numberOfNodes); ++index)
+    LONG numberOfNodes = 0;
+    nodes->get_length(&numberOfNodes);
+    for (LONG index = 0; index < numberOfNodes; ++index)
     {
         IXMLDOMNode* node = nullptr;
         result = nodes->get_item(index, &node);
@@ -1019,13 +1019,13 @@ HRESULT CHIndexerBase::_ParseManualResourcePackageNodeList(IXMLDOMNodeList* cons
                 }
                 else
                 {
-                    std::uint32_t numberOfQualifierSets = 0;
+                    LONG numberOfQualifierSets = 0;
                     IXMLDOMNodeList* qualifierSetNodes = nullptr;
                     CXmlHelper packageXml(node);
                     result = packageXml.TryGetChildren(L"qualifierSet", status, &qualifierSetNodes);
                     if (SUCCEEDED(result))
                     {
-                        nodes->get_length(reinterpret_cast<LONG*>(&numberOfQualifierSets));
+                        nodes->get_length(&numberOfQualifierSets);
                         if (static_cast<int>(numberOfQualifierSets) > 0)
                         {
                             result = _ParseManualQualifierSetNodeList(qualifierSetNodes, packageName, status);
@@ -1060,9 +1060,9 @@ HRESULT CHIndexerBase::_ParseManualQualifierSetNodeList(
 
     status->DiagnosticLogWithPrefixA("Start - ", __FUNCTION__);
     HRESULT result = S_OK;
-    std::uint32_t numberOfNodes = 0;
-    nodes->get_length(reinterpret_cast<LONG*>(&numberOfNodes));
-    for (int index = 0; index < static_cast<int>(numberOfNodes); ++index)
+    LONG numberOfNodes = 0;
+    nodes->get_length(&numberOfNodes);
+    for (LONG index = 0; index < numberOfNodes; ++index)
     {
         IXMLDOMNode* node = nullptr;
         result = nodes->get_item(index, &node);
@@ -2580,7 +2580,7 @@ HRESULT CHIndexerBase::_ParseIndexNodes(IXMLDOMNode* const root, IDefStatusEx* c
         result = indexNodes->get_length(&numberOfIndexNodes);
         if (SUCCEEDED(result))
         {
-            for (int index = 0; index < static_cast<int>(numberOfIndexNodes); ++index)
+            for (LONG index = 0; index < numberOfIndexNodes; ++index)
             {
                 IXMLDOMNode* indexNode;
                 result = indexNodes->get_item(index, &indexNode);

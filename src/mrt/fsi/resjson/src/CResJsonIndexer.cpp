@@ -47,11 +47,11 @@ HRESULT CResJsonIndexer::Init(
     if (SUCCEEDED(result))
     {
         IXMLDOMNodeList* children = nullptr;
-        std::uint32_t length = 0;
+        LONG length = 0;
         bool found = false;
         xmlHelper.TryGetChildren(L"indexer-config", pStatus, &children);
-        children->get_length(reinterpret_cast<long*>(&length));
-        for (int index = 0; index < static_cast<int>(length) && !found && SUCCEEDED(result); ++index)
+        children->get_length(&length);
+        for (LONG index = 0; index < length && !found && SUCCEEDED(result); ++index)
         {
             IXMLDOMNode* child = nullptr;
             result = children->get_item(index, &child);

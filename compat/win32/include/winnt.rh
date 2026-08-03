@@ -1,0 +1,12 @@
+#pragma once
+
+#if __has_include_next(<winnt.rh>)
+#include_next <winnt.rh>
+#else
+
+// Symbols defined in this header for resource scripts.
+
+#define LANG_ENGLISH 0x09
+#define SUBLANG_ENGLISH_US 0x01
+
+#endif // __has_include_next(<winnt.rh>)

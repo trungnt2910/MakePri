@@ -1,0 +1,13 @@
+#pragma once
+
+#if __has_include_next(<winuser.rh>)
+#include_next <winuser.rh>
+#else
+
+// Symbols defined in this header for resource scripts.
+
+#include <winnt.rh>
+
+#define RT_MANIFEST 24
+
+#endif // __has_include_next(<winuser.rh>)

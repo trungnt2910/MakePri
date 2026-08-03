@@ -351,21 +351,21 @@ HRESULT CFIXmlConfig::_ProcessIndexerConfigNode(IXMLDOMNode* const pIndexerConfi
         result = helper.TryGetChildren(L"exclude", pStatus, &children);
         if (SUCCEEDED(result) && children != nullptr)
         {
-            long length = 0;
+            LONG length = 0;
             result = children->get_length(&length);
             if (length > 0)
             {
                 do
                 {
                     IXMLDOMNode* child = nullptr;
-                    result = children->get_item(static_cast<long>(index), &child);
+                    result = children->get_item(static_cast<LONG>(index), &child);
                     if (SUCCEEDED(result) && child != nullptr)
                     {
                         result = _ProcessExcludeNode(child, pStatus);
                     }
                     SAFE_RELEASE(child);
                     ++index;
-                } while (static_cast<long>(index) < length);
+                } while (static_cast<LONG>(index) < length);
             }
         }
         else
@@ -395,9 +395,9 @@ HRESULT CFIXmlConfig::Parse(IDefStatusEx* const pStatus)
         if (SUCCEEDED(result))
         {
             _pFolderConfigXmlHelper->TryGetChildren(L"indexer-config", pStatus, &children);
-            long length = 0;
+            LONG length = 0;
             children->get_length(&length);
-            for (long index = 0; index < length; ++index)
+            for (LONG index = 0; index < length; ++index)
             {
                 if (found)
                 {

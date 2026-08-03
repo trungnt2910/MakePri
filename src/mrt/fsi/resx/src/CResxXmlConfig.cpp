@@ -44,7 +44,7 @@ const wchar_t* CResxXmlConfig::GetInitialPath() { return m_initialPath.GetRef();
 HRESULT CResxXmlConfig::Parse(IDefStatusEx* const status)
 {
     HRESULT result = S_OK;
-    std::uint32_t length = 0;
+    LONG length = 0;
     IXMLDOMNode* child = nullptr;
     IXMLDOMNodeList* children = nullptr;
     _variant_t convertDotsToSlashes;
@@ -59,8 +59,8 @@ HRESULT CResxXmlConfig::Parse(IDefStatusEx* const status)
         if (SUCCEEDED(result))
         {
             m_resxConfigXmlHelper->TryGetChildren(L"indexer-config", status, &children);
-            children->get_length(reinterpret_cast<long*>(&length));
-            for (int index = 0; index < static_cast<int>(length) && !found && SUCCEEDED(result); ++index)
+            children->get_length(&length);
+            for (LONG index = 0; index < length && !found && SUCCEEDED(result); ++index)
             {
                 result = children->get_item(index, &child);
                 if (SUCCEEDED(result) && child != nullptr)

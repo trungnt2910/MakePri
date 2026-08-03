@@ -55,11 +55,11 @@ HRESULT CResFilesIndexer::_ParseIndexPassNode(IXMLDOMNode* const pIndexPassNode,
     if (SUCCEEDED(result))
     {
         helper.TryGetChildren(L"indexer-config", pStatus, &children);
-        std::uint32_t length;
-        children->get_length(reinterpret_cast<long*>(&length));
+        LONG length;
+        children->get_length(&length);
         bool found = false;
         IXMLDOMNode* child;
-        for (int index = 0; index < static_cast<int>(length) && !found; ++index)
+        for (LONG index = 0; index < length && !found; ++index)
         {
             result = children->get_item(index, &child);
             if (SUCCEEDED(result))

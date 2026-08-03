@@ -172,9 +172,9 @@ HRESULT CEmbedFilesIndexer::_ParseIndexPassNode(IXMLDOMNode* const pIndexPassNod
     if (SUCCEEDED(result))
     {
         helper.TryGetChildren(L"indexer-config", pStatus, &children);
-        long length;
+        LONG length;
         children->get_length(&length);
-        for (long index = 0; index < length && !found; ++index)
+        for (LONG index = 0; index < length && !found; ++index)
         {
             IXMLDOMNode* child = nullptr;
             result = children->get_item(index, &child);
