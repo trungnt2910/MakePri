@@ -1,0 +1,134 @@
+name: Build (Windows)
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        architecture: [x86_64, i686, aarch64, armv7]
+        configuration: [Debug, Release]
+        include:
+          - architecture: x86_64
+            runner: windows-latest
+            host: x86_64
+            run_tests: true
+          - architecture: i686
+            runner: windows-latest
+            host: x86_64
+            run_tests: true
+          - architecture: aarch64
+            runner: windows-11-arm
+            host: aarch64
+            run_tests: true
+          - architecture: armv7
+            runner: windows-latest
+            host: x86_64
+            run_tests: false
+    runs-on: ${{ matrix.runner }}
+    env:
+      BUILD_DIRECTORY: build_${{ matrix.architecture }}_${{ matrix.configuration }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Download llvm-mingw
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh release download                                     ^
+          --repo mstorsjo/llvm-mingw                            ^
+          --pattern "llvm-mingw-*-ucrt-${{ matrix.host }}.zip"
+      shell: cmd
+
+    - name: Extract llvm-mingw
+      run: |
+        Get-ChildItem -Filter "llvm-mingw-*-ucrt-${{ matrix.host }}.zip" |
+          ForEach-Object { Expand-Archive -Path $_.FullName -DestinationPath . }
+        Get-ChildItem -Directory -Filter "llvm-mingw*" |
+          Rename-Item -NewName "llvm-mingw"
+        [System.IO.File]::AppendAllLines(
+          $env:GITHUB_PATH,
+          [string[]]@("${{ github.workspace }}\llvm-mingw\bin")
+        )
+      shell: powershell
+
+    - name: Find Official MakePri
+      run: |
+        $kitsRoot = Get-ItemPropertyValue                                       `
+          -LiteralPath "HKLM:\SOFTWARE\Microsoft\Windows Kits\Installed Roots"  `
+          -Name "KitsRoot10"
+        $sdkArchitecture = switch ($env:RUNNER_ARCH) {
+          "X64" { "x64" }
+          "ARM64" { "arm64" }
+          default { throw "Unsupported runner architecture: $env:RUNNER_ARCH" }
+        }
+        $sdkBin = Join-Path $kitsRoot "bin"
+        $makePri = Get-ChildItem -LiteralPath $sdkBin -Directory |
+          Where-Object { $_.Name -match "^\d+\.\d+\.\d+\.\d+$" } |
+          Sort-Object { [version]$_.Name } -Descending |
+          ForEach-Object { Join-Path $_.FullName "$sdkArchitecture\makepri.exe" } |
+          Where-Object { Test-Path -LiteralPath $_ } |
+          Select-Object -First 1
+        if (!$makePri) {
+          throw "Could not find MakePri.exe in $sdkBin for $sdkArchitecture"
+        }
+        [System.IO.File]::AppendAllLines(
+          $env:GITHUB_ENV,
+          [string[]]@("MAKEPRI_OFFICIAL=$makePri")
+        )
+      shell: powershell
+
+    - name: Configure
+      env:
+        TARGET: ${{ matrix.architecture }}-w64-mingw32
+      run: |
+        cmake                                                     ^
+          -S .                                                    ^
+          -B %BUILD_DIRECTORY%                                    ^
+          -G Ninja                                                ^
+          -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}          ^
+          -DCMAKE_SYSTEM_NAME=Windows                             ^
+          -DCMAKE_SYSTEM_PROCESSOR=${{ matrix.architecture }}     ^
+          -DCMAKE_C_COMPILER=%TARGET%-clang.exe                   ^
+          -DCMAKE_CXX_COMPILER=%TARGET%-clang++.exe               ^
+          -DMAKEPRI_TEST_OFFICIAL_EXECUTABLE="%MAKEPRI_OFFICIAL%"
+      shell: cmd
+
+    - name: Build
+      run: |
+        cmake                                   ^
+          --build %BUILD_DIRECTORY%             ^
+          --config ${{ matrix.configuration }}
+      shell: cmd
+
+    - name: Run Tests
+      if: matrix.run_tests
+      run: |
+        ctest                                         ^
+          --output-on-failure                         ^
+          --test-dir %BUILD_DIRECTORY%                ^
+          --build-config ${{ matrix.configuration }}
+      shell: cmd
+
+    - name: Install
+      run: |
+        cmake                                   ^
+          --install %BUILD_DIRECTORY%           ^
+          --config ${{ matrix.configuration }}  ^
+          --prefix install
+        cmake -E copy_if_different                                ^
+          %BUILD_DIRECTORY%\src\mrt\tools\makepri\src\makepri.pdb ^
+          install\bin\makepri.pdb
+      shell: cmd
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: makepri-windows-${{ matrix.architecture }}-${{ matrix.configuration }}
+        path: install
+        if-no-files-found: error
