@@ -54,3 +54,5 @@ makepri_add_unicode_executable(
 )
 target_include_directories(makepri PRIVATE "${PROJECT_SOURCE_DIR}/src/mrt/tools/makepri/res")
 target_link_libraries(makepri PRIVATE makepri_makepricore ole32)
+
+install(TARGETS makepri)
