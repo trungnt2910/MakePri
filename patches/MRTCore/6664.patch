@@ -1,0 +1,34 @@
+From 8e6ed98662a9cce26355f9657bfcd55b4e03e4ff Mon Sep 17 00:00:00 2001
+From: Trung Nguyen <57174311+trungnt2910@users.noreply.github.com>
+Date: Sat, 1 Aug 2026 03:20:48 +1000
+Subject: [PATCH] Remove unnecessary explicit override
+
+Since `IResourceLinkBuilder` is the only base of `PriSectionBuilder`
+that defines `GetSchema()`, the explicit qualifier is redundant.
+
+Removing this MSVC-specific feature also allows MRTCore to be
+built with Clang and MinGW.
+---
+ dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h b/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h
+index 258d098c12..d69b8ceb20 100644
+--- a/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h
++++ b/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h
+@@ -1432,7 +1432,7 @@ class PriSectionBuilder : public ISectionBuilder, public IResourceLinkBuilder
+         _In_ const HierarchicalSchemaSectionBuilder* linkToSchema,
+         _In_ PCWSTR linkToResourceName);
+ 
+-    virtual HierarchicalSchemaSectionBuilder* IResourceLinkBuilder::GetSchema() const { return m_pPrimarySchema; }
++    virtual HierarchicalSchemaSectionBuilder* GetSchema() const { return m_pPrimarySchema; }
+ 
+     ~PriSectionBuilder();
+ 
+@@ -1808,4 +1808,4 @@ class PriMapMerger : public DefObject
+ #define DefBuilder_PhaseIsAfter(GOT, WANT, STATUS) Def_Check0(((GOT) > (WANT)), E_DEFFILE_BUILD_BAD_PHASE, STATUS)
+ 
+ } // namespace Build
+-} // namespace Microsoft::Resources
+\ No newline at end of file
++} // namespace Microsoft::Resources

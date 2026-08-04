@@ -79,14 +79,14 @@ endif()
 # ========================================================
 # Windows App SDK
 # ========================================================
-# TODO: Switch to an official tag again once these PRs are merged:
-# https://github.com/microsoft/WindowsAppSDK/pull/6663
-# https://github.com/microsoft/WindowsAppSDK/pull/6664
 CPMAddPackage(
     NAME windows_app_sdk
-    GIT_REPOSITORY https://github.com/trungnt2910/WindowsAppSDK.git
-    GIT_TAG 55a9198c1d61cc6a0253131d791d3ecdec498164
+    GIT_REPOSITORY https://github.com/microsoft/WindowsAppSDK.git
+    GIT_TAG v2.3.1
     GIT_SHALLOW TRUE
+    PATCHES
+        "${CMAKE_SOURCE_DIR}/patches/MRTCore/6663.patch"
+        "${CMAKE_SOURCE_DIR}/patches/MRTCore/6664.patch"
     SOURCE_SUBDIR makepri-no-add-subdirectory
 )
 include("${CMAKE_CURRENT_LIST_DIR}/MRTCore.cmake")
