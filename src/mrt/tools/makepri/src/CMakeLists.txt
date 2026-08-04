@@ -52,6 +52,5 @@ makepri_add_unicode_executable(
     $<TARGET_OBJECTS:makepri_parameterparser>
     "${PROJECT_SOURCE_DIR}/src/mrt/tools/makepri/res/makepri.rc"
 )
-set_target_properties(makepri PROPERTIES OUTPUT_NAME MakePri)
 target_include_directories(makepri PRIVATE "${PROJECT_SOURCE_DIR}/src/mrt/tools/makepri/res")
 target_link_libraries(makepri PRIVATE makepri_makepricore ole32)
