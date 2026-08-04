@@ -73,6 +73,9 @@ nargs = "+"
 [commands.cpmaddpackage.kwargs.PATCHES]
 nargs = "+"
 
+[commands.cpmaddpackage.kwargs.PATCH_COMMAND]
+nargs = "+"
+
 [commands.cpmaddpackage.kwargs.SOURCE_DIR]
 nargs = 1
 

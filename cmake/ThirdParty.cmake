@@ -46,7 +46,7 @@ if(NOT WIN32)
         URL_HASH SHA256=cc5dc5006ecbdf0051f90979be31b4eee5987d9ae14ae9fb9c03cfa43fa3cdad
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         EXCLUDE_FROM_ALL YES
-        OPTIONS "BOOST_INCLUDE_LIBRARIES dll\;interprocess"
+        OPTIONS "BOOST_INCLUDE_LIBRARIES dll\\\;interprocess"
     )
     unset(MAKEPRI_BOOST_URL)
 endif()
@@ -84,7 +84,9 @@ CPMAddPackage(
     GIT_REPOSITORY https://github.com/microsoft/WindowsAppSDK.git
     GIT_TAG v2.3.1
     GIT_SHALLOW TRUE
-    PATCHES
+    PATCH_COMMAND
+        "${GIT_EXECUTABLE}"
+        apply
         "${CMAKE_SOURCE_DIR}/patches/MRTCore/6663.patch"
         "${CMAKE_SOURCE_DIR}/patches/MRTCore/6664.patch"
     SOURCE_SUBDIR makepri-no-add-subdirectory
