@@ -9,14 +9,14 @@ that defines `GetSchema()`, the explicit qualifier is redundant.
 Removing this MSVC-specific feature also allows MRTCore to be
 built with Clang and MinGW.
 ---
- dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h b/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h
-index 258d098c12..d69b8ceb20 100644
+index 258d098c12..6bda577c37 100644
 --- a/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h
 +++ b/dev/MRTCore/mrt/mrm/include/mrm/build/MrmBuilders.h
-@@ -1432,7 +1432,7 @@ class PriSectionBuilder : public ISectionBuilder, public IResourceLinkBuilder
+@@ -1432,6 +1432,6 @@ class PriSectionBuilder : public ISectionBuilder, public IResourceLinkBuilder
          _In_ const HierarchicalSchemaSectionBuilder* linkToSchema,
          _In_ PCWSTR linkToResourceName);
  
@@ -24,11 +24,3 @@ index 258d098c12..d69b8ceb20 100644
 +    virtual HierarchicalSchemaSectionBuilder* GetSchema() const { return m_pPrimarySchema; }
  
      ~PriSectionBuilder();
- 
-@@ -1808,4 +1808,4 @@ class PriMapMerger : public DefObject
- #define DefBuilder_PhaseIsAfter(GOT, WANT, STATUS) Def_Check0(((GOT) > (WANT)), E_DEFFILE_BUILD_BAD_PHASE, STATUS)
- 
- } // namespace Build
--} // namespace Microsoft::Resources
-\ No newline at end of file
-+} // namespace Microsoft::Resources
