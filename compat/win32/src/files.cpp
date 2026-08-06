@@ -363,6 +363,7 @@ extern "C" HANDLE WINAPI FindFirstFileW(LPCWSTR const name, LPWIN32_FIND_DATAW c
             find->entries.push_back(entry);
         }
     }
+    std::ranges::sort(find->entries, {}, [](const std::filesystem::directory_entry& entry) { return entry.path().filename().u16string(); });
     if (error || find->entries.empty())
     {
         delete find;
