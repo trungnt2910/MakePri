@@ -73,6 +73,7 @@ if(WIN32)
         VERSION 1.0.260126.7
         URL https://github.com/microsoft/wil/archive/refs/tags/v1.0.260126.7.tar.gz
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        EXCLUDE_FROM_ALL YES
         OPTIONS "WIL_BUILD_TESTS FALSE"
     )
     target_include_directories(WIL SYSTEM INTERFACE "$<BUILD_INTERFACE:${wil_SOURCE_DIR}/include>")
@@ -105,6 +106,7 @@ if(BUILD_TESTING)
         VERSION 1.14.0
         URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        EXCLUDE_FROM_ALL YES
     )
     target_compile_options(gtest PRIVATE -Wno-character-conversion)
 endif()
