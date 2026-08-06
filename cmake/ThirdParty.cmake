@@ -1,5 +1,7 @@
 include("${CMAKE_CURRENT_LIST_DIR}/GetCPM.cmake")
 
+find_package(Git REQUIRED)
+
 set(MAKEPRI_ORIGINAL_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 list(JOIN MAKEPRI_THIRD_PARTY_COMPILE_FLAGS " " makepri_third_party_compile_flags)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${makepri_third_party_compile_flags}")
