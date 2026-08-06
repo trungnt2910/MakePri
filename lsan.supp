@@ -1,0 +1,5 @@
+# Intentional leaks retained for bug-for-bug MakePri and MRTCore compatibility.
+leak:StandalonePriFileXml::DumpBasicRecursiveResourceMapSubTree
+leak:CHIndexerBase::_AddReverseMapSection
+leak:ResourceLinkSectionBuilder::Init
+leak:StaticHierarchicalSchemaDescription::Init
