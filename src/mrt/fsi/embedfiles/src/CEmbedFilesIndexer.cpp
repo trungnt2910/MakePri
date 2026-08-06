@@ -67,7 +67,7 @@ HRESULT CEmbedFilesIndexer::Process(
                 }
             }
         }
-        operator delete(const_cast<wchar_t*>(path));
+        delete[] path;
     }
     pStatus->DiagnosticLogWithErrorCodeA(__FUNCTION__, ComputeHResult(result, pStatus));
     return ComputeHResult(result, pStatus);
@@ -187,7 +187,7 @@ HRESULT CEmbedFilesIndexer::_ParseIndexPassNode(IXMLDOMNode* const pIndexPassNod
                 {
                     found = true;
                 }
-                operator delete(type);
+                delete[] type;
             }
             SAFE_RELEASE(child);
         }

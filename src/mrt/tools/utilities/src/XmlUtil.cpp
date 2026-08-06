@@ -454,7 +454,7 @@ HRESULT CXMLUtil::GetSingleNodeValue(IXMLDOMDocument2* const document, const wch
             if (SUCCEEDED(result))
             {
                 const std::uint32_t length = SysStringLen(nodeValue.bstrVal) + 1;
-                *value = static_cast<wchar_t*>(operator new(length * sizeof(wchar_t)));
+                *value = new wchar_t[length];
                 if (*value != nullptr)
                 {
                     result = StringCchCopyW(*value, length, nodeValue.bstrVal);
@@ -469,7 +469,7 @@ HRESULT CXMLUtil::GetSingleNodeValue(IXMLDOMDocument2* const document, const wch
 
     if (FAILED(result) && *value != nullptr)
     {
-        operator delete(*value);
+        delete[] *value;
         *value = nullptr;
     }
     VariantClear(&nodeValue);

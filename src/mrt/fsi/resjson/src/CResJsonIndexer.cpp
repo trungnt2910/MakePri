@@ -74,10 +74,10 @@ HRESULT CResJsonIndexer::Init(
                         PathRemoveBackslashW(initialPath);
                         Def_HrFailed0(DefStringResult_SetCopy(_strInitialPath.GetStringResult(), initialPath), pStatus);
                     }
-                    operator delete(initialPath);
+                    delete[] initialPath;
                     found = true;
                 }
-                operator delete(type);
+                delete[] type;
                 SAFE_RELEASE(child);
             }
         }
@@ -430,7 +430,7 @@ HRESULT CResJsonIndexer::Process(
                             pStatus->SetError(E_DEF_FILE_NOT_FOUND, accessiblePath);
                         }
                     }
-                    operator delete(const_cast<wchar_t*>(accessiblePath));
+                    delete[] accessiblePath;
                 }
             }
         }

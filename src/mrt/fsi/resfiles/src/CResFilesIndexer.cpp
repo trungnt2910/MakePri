@@ -80,10 +80,10 @@ HRESULT CResFilesIndexer::_ParseIndexPassNode(IXMLDOMNode* const pIndexPassNode,
                     {
                         Def_HrFailed0(DefStringResult_SetCopy(_strQualifierDelimiter.GetStringResult(), delimiter), pStatus);
                     }
-                    operator delete(delimiter);
+                    delete[] delimiter;
                     found = true;
                 }
-                operator delete(type);
+                delete[] type;
             }
             SAFE_RELEASE(child);
         }
@@ -374,7 +374,7 @@ HRESULT CResFilesIndexer::Process(
                     pStatus->SetError(E_DEF_FILE_NOT_FOUND, accessiblePath);
                 }
             }
-            operator delete(const_cast<wchar_t*>(accessiblePath));
+            delete[] accessiblePath;
         }
     }
     pStatus->DiagnosticLogWithErrorCodeA(__FUNCTION__, ComputeHResult(result, pStatus));

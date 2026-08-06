@@ -89,7 +89,7 @@ HRESULT CPriFileIndexer::Process(
                     pStatus->SetError(E_DEF_FILE_NOT_FOUND, accessiblePath);
                 }
             }
-            ::operator delete(const_cast<wchar_t*>(accessiblePath));
+            delete[] accessiblePath;
         }
     }
     return result;

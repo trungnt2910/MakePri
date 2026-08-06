@@ -87,7 +87,7 @@ HRESULT CPriSchemaReader::InitializeFromFile(const wchar_t* const path, IDefStat
 
     const wchar_t* accessiblePath = nullptr;
     RETURN_IF_FAILED(CUtilities::GetPathInAccessibleFormat(path, &accessiblePath));
-    const std::unique_ptr<const wchar_t> accessiblePathOwner(accessiblePath);
+    const std::unique_ptr<const wchar_t[]> accessiblePathOwner(accessiblePath);
 
     if (!PathFileExistsW(accessiblePath))
     {
@@ -231,9 +231,9 @@ HRESULT CPriSchemaReader::ParseResourceMapNode(IXMLDOMNode* const node, IDefStat
         }
     }
 
-    operator delete(simpleName);
-    operator delete(uniqueName);
-    operator delete(version);
+    delete[] simpleName;
+    delete[] uniqueName;
+    delete[] version;
     if (SUCCEEDED(result))
     {
         result = status->GetHResult();
@@ -255,13 +255,13 @@ HRESULT CPriSchemaReader::ParseResourceMapSubtreeNode(const wchar_t* const paren
     result = helper.GetAttributeValue(s_pszSubtreeNameAttribute, status, &name);
     if (FAILED(result))
     {
-        operator delete(name);
+        delete[] name;
         return result;
     }
 
     if (Def_HrFailed0(DefStringResult_ConcatPathElement(fullName.GetStringResult(), name, L'/'), status))
     {
-        operator delete(name);
+        delete[] name;
         return status->GetHResult();
     }
 
@@ -353,7 +353,7 @@ HRESULT CPriSchemaReader::ParseResourceMapSubtreeNode(const wchar_t* const paren
         }
     }
 
-    operator delete(name);
+    delete[] name;
     if (SUCCEEDED(result))
     {
         result = status->GetHResult();
@@ -376,7 +376,7 @@ HRESULT CPriSchemaReader::ParseNamedResourceNode(const wchar_t* const parentName
     {
         Def_HrFailed0(DefStringResult_ConcatPathElement(fullName.GetStringResult(), name, L'/'), status);
     }
-    operator delete(name);
+    delete[] name;
 
     std::uint32_t itemIndex = static_cast<std::uint32_t>(-1);
     _variant_t index;

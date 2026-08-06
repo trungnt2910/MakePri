@@ -161,7 +161,7 @@ HRESULT CBootStrapIndexer::_ParseNode(IXMLDOMNode* const pIndexPassNode, IDefSta
             }
         }
     }
-    operator delete(pNodeName);
+    delete[] pNodeName;
     pStatus->DiagnosticLogWithErrorCodeA(__FUNCTION__, hr);
     return hr;
 }
@@ -183,8 +183,8 @@ HRESULT CBootStrapIndexer::_ProcessIndexNode(IXMLDOMNode* const pIndexPassNode, 
             Def_HrFailed0(DefStringResult_SetCopy(_strStartIndexAt.GetStringResult(), _strValue.GetRef()), pStatus);
         }
     }
-    operator delete(root);
-    operator delete(startIndexAt);
+    delete[] root;
+    delete[] startIndexAt;
     pStatus->DiagnosticLogWithErrorCodeA(__FUNCTION__, result);
     return result;
 }
@@ -292,8 +292,8 @@ HRESULT CBootStrapIndexer::_ProcessConditionsNode(IXMLDOMNode* const pConditions
                             Def_HrFailed0(DefStringResult_Concat(description.GetStringResult(), value), pStatus);
                             pStatus->SetError(E_DEF_PRICONFIG_INVALID_QUAL, description.GetRef());
                         }
-                        operator delete(name);
-                        operator delete(value);
+                        delete[] name;
+                        delete[] value;
                         delete childHelper;
                         if (!valid)
                         {
@@ -359,8 +359,8 @@ HRESULT CBootStrapIndexer::_ProcessUltimateFallbackNode(IXMLDOMNode* const pUltF
                     }
                     childHelper->GetAttributeValue(L"value", pStatus, &value);
                     result = _pQualifierApplicator->AddUltFallbackAttrValuePair(attribute, value, nullptr, pStatus);
-                    operator delete(name);
-                    operator delete(value);
+                    delete[] name;
+                    delete[] value;
                     delete childHelper;
                 }
                 else

@@ -180,7 +180,7 @@ HRESULT CJSONLexer::SetInput(const wchar_t* const input, const std::uint32_t len
     _token = tagTOKEN::tokenUNKNOWN;
     if (input == nullptr)
     {
-        operator delete(_szYYTextAlloc);
+        delete[] _szYYTextAlloc;
         _szYYTextAlloc = nullptr;
         _cchYYTextAlloc = 0;
         _jsonInput.pszInput = nullptr;
@@ -198,10 +198,10 @@ HRESULT CJSONLexer::SetInput(const wchar_t* const input, const std::uint32_t len
         }
         if (_szYYTextAlloc != nullptr)
         {
-            operator delete(_szYYTextAlloc);
+            delete[] _szYYTextAlloc;
         }
         _cchYYTextAlloc = inputLength + 1;
-        _szYYTextAlloc = static_cast<wchar_t*>(operator new(sizeof(wchar_t) * _cchYYTextAlloc));
+        _szYYTextAlloc = new wchar_t[_cchYYTextAlloc];
         if (_szYYTextAlloc == nullptr)
         {
             _cchYYTextAlloc = 0;

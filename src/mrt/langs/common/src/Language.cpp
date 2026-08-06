@@ -159,7 +159,7 @@ HRESULT CLanguage::Initialize(const wchar_t* const tag)
 {
     if (m_ownedTag != nullptr)
     {
-        ::operator delete(m_ownedTag);
+        delete[] m_ownedTag;
         m_ownedTag = nullptr;
     }
 
@@ -477,7 +477,7 @@ bool CLanguage::ValidateTagAndInitialize(const wchar_t* const tag)
         if ((tag != m_ownedTag) && SUCCEEDED(StringCchLengthW(tag, MaximumTagLength + 1, &tagLength)))
         {
             ++tagLength;
-            auto* const copiedTag = static_cast<wchar_t*>(::operator new[](sizeof(wchar_t) * tagLength, std::nothrow));
+            auto* const copiedTag = new (std::nothrow) wchar_t[tagLength];
             if (copiedTag != nullptr)
             {
                 if (SUCCEEDED(StringCchCopyW(copiedTag, tagLength, tag)))
@@ -514,12 +514,12 @@ bool CLanguage::ValidateTagAndInitialize(const wchar_t* const tag)
                         ToLowerCase(&copiedTag[m_subtags.subtags[6].offset], m_subtags.subtags[6].length);
                     }
 
-                    ::operator delete(m_ownedTag);
+                    delete[] m_ownedTag;
                     m_ownedTag = copiedTag;
                     goto CopyFinished;
                 }
 
-                ::operator delete(copiedTag);
+                delete[] copiedTag;
             }
 
             valid = false;

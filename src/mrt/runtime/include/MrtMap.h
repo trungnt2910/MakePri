@@ -6,7 +6,6 @@
 
 #include <cstddef>
 #include <cstring>
-#include <limits>
 #include <new>
 
 namespace Microsoft::Resources::Runtime
@@ -42,7 +41,7 @@ public:
     {
         if (m_entries != nullptr)
         {
-            operator delete(m_entries);
+            delete[] m_entries;
             m_entries = nullptr;
         }
     }
@@ -98,7 +97,7 @@ public:
         AcquireSRWLockShared(&m_lock);
         if (m_entries != nullptr)
         {
-            operator delete(m_entries);
+            delete[] m_entries;
             m_entries = nullptr;
         }
         m_count = 0;
@@ -116,7 +115,7 @@ private:
         static_cast<void>(ignoredCapacity);
         InitializeSRWLock(&m_lock);
         m_capacity = 5;
-        m_entries = static_cast<Entry*>(operator new[](static_cast<std::size_t>(5) * sizeof(Entry), std::nothrow));
+        m_entries = new (std::nothrow) Entry[5];
         HRESULT result = S_OK;
         if (m_entries == nullptr)
         {
@@ -129,24 +128,14 @@ private:
 
     HRESULT _Expand()
     {
-        std::size_t allocationSize;
-        if (m_capacity > std::numeric_limits<std::size_t>::max() / (2 * sizeof(Entry)))
-        {
-            allocationSize = std::numeric_limits<std::size_t>::max();
-        }
-        else
-        {
-            allocationSize = 2 * static_cast<std::size_t>(m_capacity) * sizeof(Entry);
-        }
-
-        auto* const entries = static_cast<Entry*>(operator new[](allocationSize, std::nothrow));
+        auto* const entries = new (std::nothrow) Entry[2 * m_capacity];
         if (entries == nullptr)
         {
             return E_OUTOFMEMORY;
         }
 
         std::memcpy(entries, m_entries, m_count * sizeof(Entry));
-        operator delete(m_entries);
+        delete[] m_entries;
         m_entries = entries;
         m_capacity *= 2;
         return S_OK;

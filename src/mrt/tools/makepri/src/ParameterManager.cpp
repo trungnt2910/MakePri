@@ -350,7 +350,7 @@ HRESULT ParameterManager::GetIndexNameFromAppxManifest()
         m_indexName.assign(value);
     }
 
-    operator delete(value);
+    delete[] value;
     document->Release();
     return result;
 }

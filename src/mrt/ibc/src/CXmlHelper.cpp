@@ -125,7 +125,7 @@ HRESULT CXmlHelper::Init(
                 {
                     result = E_OUTOFMEMORY;
                 }
-                operator delete(contents);
+                delete[] contents;
             }
         }
         else
@@ -384,11 +384,11 @@ HRESULT CXmlHelper::ValidateChildNodeAgainstChildSchema(
                         {
                             result = helper.ValidateAgainstSchema(schema, pStatus);
                         }
-                        operator delete(childType);
+                        delete[] childType;
                         SAFE_RELEASE(child);
                         break;
                     }
-                    operator delete(childType);
+                    delete[] childType;
                 }
                 SAFE_RELEASE(child);
             }
@@ -428,7 +428,7 @@ HRESULT CXmlHelper::_CreateString(BSTR const pString, wchar_t** const pOutString
     const HRESULT operationResult = StringCchCopyW(*pOutString, length + 1, static_cast<const wchar_t*>(copy));
     if (FAILED(operationResult))
     {
-        operator delete(*pOutString);
+        delete[] *pOutString;
         *pOutString = nullptr;
     }
     return operationResult;

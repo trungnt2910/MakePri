@@ -185,4 +185,4 @@ int WINAPI CompareBcp47Tags(const wchar_t* const left, const wchar_t* const righ
     return result;
 }
 
-Windows::Internal::CLanguage::~CLanguage() { ::operator delete(m_ownedTag); }
+Windows::Internal::CLanguage::~CLanguage() { delete[] m_ownedTag; }

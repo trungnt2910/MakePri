@@ -312,7 +312,7 @@ HRESULT CPriInfoIndexer::ParseCandidateNode(
             }
             result = pStatus->GetHResult();
         }
-        operator delete(type);
+        delete[] type;
         if (FAILED(result))
         {
             return result;
@@ -475,7 +475,7 @@ HRESULT CPriInfoIndexer::ParseIndexConfigNode(IXMLDOMNode* const pIndexConfigNod
             result = S_OK;
         }
     }
-    operator delete(type);
+    delete[] type;
     return result;
 }
 
@@ -525,7 +525,7 @@ HRESULT CPriInfoIndexer::ParseItemNode(
             SAFE_RELEASE(linkNode);
         }
     }
-    operator delete(name);
+    delete[] name;
     return result;
 }
 
@@ -716,8 +716,8 @@ HRESULT CPriInfoIndexer::ParseQualifierNode(
         result = E_FAIL;
     }
 
-    operator delete(name);
-    operator delete(value);
+    delete[] name;
+    delete[] value;
     return result;
 }
 
@@ -824,7 +824,7 @@ HRESULT CPriInfoIndexer::ParseScopeNode(
                 SAFE_RELEASE(reinterpret_cast<IXMLDOMNode*>(children));
                 if (FAILED(result))
                 {
-                    operator delete(name);
+                    delete[] name;
                     return result;
                 }
             }
@@ -849,7 +849,7 @@ HRESULT CPriInfoIndexer::ParseScopeNode(
             }
         }
     }
-    operator delete(name);
+    delete[] name;
     return result;
 }
 
@@ -907,7 +907,7 @@ HRESULT CPriInfoIndexer::Process(
                 pStatus->SetError(E_DEF_FILE_NOT_FOUND, accessiblePath);
             }
         }
-        operator delete(const_cast<wchar_t*>(accessiblePath));
+        delete[] accessiblePath;
     }
     return result;
 }

@@ -2536,7 +2536,7 @@ bool StandalonePriFileXml::ConstructUri(
     Def_HrFailed0(DefStringResult_Concat(result->GetStringResult(), normalizedPath.c_str()), status);
 
     std::uint32_t encodedLength = static_cast<std::uint32_t>(3 * result->GetLength());
-    auto* const encoded = static_cast<wchar_t*>(::operator new[](sizeof(wchar_t) * encodedLength, std::nothrow));
+    auto* const encoded = new (std::nothrow) wchar_t[encodedLength];
     if (encoded == nullptr)
     {
         return false;
@@ -2544,7 +2544,7 @@ bool StandalonePriFileXml::ConstructUri(
 
     const HRESULT conversionResult = Runtime::CResourceIndexInternal::s_ConvertToPercentEncoding(result->GetRef(), encoded, &encodedLength);
     Def_HrFailed0(DefStringResult_SetCopy(result->GetStringResult(), encoded), status);
-    ::operator delete(encoded);
+    delete[] encoded;
 
     if (conversionResult != S_OK)
     {

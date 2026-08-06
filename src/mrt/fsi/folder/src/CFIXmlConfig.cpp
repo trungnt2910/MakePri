@@ -319,8 +319,8 @@ HRESULT CFIXmlConfig::_ProcessExcludeNode(IXMLDOMNode* const pExcludeNode, IDefS
     }
 
 cleanup:
-    operator delete(value);
-    operator delete(typeValue);
+    delete[] value;
+    delete[] typeValue;
     return ComputeHResult(result, pStatus);
 }
 
@@ -345,7 +345,7 @@ HRESULT CFIXmlConfig::_ProcessIndexerConfigNode(IXMLDOMNode* const pIndexerConfi
     else
     {
         Def_HrFailed0(DefStringResult_SetCopy(_strQualifierDelimiter.GetStringResult(), qualifierDelimiter), pStatus);
-        operator delete(qualifierDelimiter);
+        delete[] qualifierDelimiter;
 
         IXMLDOMNodeList* children = nullptr;
         result = helper.TryGetChildren(L"exclude", pStatus, &children);
@@ -416,7 +416,7 @@ HRESULT CFIXmlConfig::Parse(IDefStatusEx* const pStatus)
                         result = _ProcessIndexerConfigNode(child, pStatus);
                         found = true;
                     }
-                    operator delete(type);
+                    delete[] type;
                     SAFE_RELEASE(child);
                 }
             }

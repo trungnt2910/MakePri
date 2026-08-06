@@ -48,7 +48,7 @@ public:
     };
 
     CJSONLexer() = default;
-    ~CJSONLexer() { operator delete(_szYYTextAlloc); }
+    ~CJSONLexer() { delete[] _szYYTextAlloc; }
 
     HRESULT SetInput(const wchar_t* input, std::uint32_t length);
     tagTOKEN GetToken();

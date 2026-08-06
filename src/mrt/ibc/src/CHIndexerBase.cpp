@@ -905,7 +905,7 @@ HRESULT CHIndexerBase::_ParseAutoResourcePackageNodeList(IXMLDOMNodeList* const 
                     }
                 }
             }
-            ::operator delete(qualifier);
+            delete[] qualifier;
         }
         SAFE_RELEASE(node);
         if (FAILED(result))
@@ -972,7 +972,7 @@ HRESULT CHIndexerBase::_ParseAutoPackagesNode(IXMLDOMNode* const node, const wch
                                     qualifierValues.insert(value);
                                 }
                             }
-                            ::operator delete(valueText);
+                            delete[] valueText;
                         }
                     }
                     SAFE_RELEASE(valueNode);
@@ -1038,7 +1038,7 @@ HRESULT CHIndexerBase::_ParseManualResourcePackageNodeList(IXMLDOMNodeList* cons
                     SAFE_RELEASE(reinterpret_cast<IXMLDOMNode*>(qualifierSetNodes));
                 }
             }
-            ::operator delete(packageName);
+            delete[] packageName;
         }
         SAFE_RELEASE(node);
         if (FAILED(result))
@@ -1117,7 +1117,7 @@ HRESULT CHIndexerBase::_ParseManualQualifierSetNodeList(
                     }
                 }
             }
-            ::operator delete(definition);
+            delete[] definition;
         }
         SAFE_RELEASE(node);
         if (FAILED(result))
@@ -1577,10 +1577,10 @@ bool CHIndexerBase::_GetPackagingAffinityForQualifier(
         {
             if (autoPackageValues[index] != nullptr)
             {
-                ::operator delete(const_cast<wchar_t*>(autoPackageValues[index]));
+                delete[] autoPackageValues[index];
             }
         }
-        ::operator delete(autoPackageValues);
+        delete[] autoPackageValues;
     }
     return result;
 }
@@ -2779,7 +2779,7 @@ SelectProfiles:
     }
     if (targetOsVersion != nullptr)
     {
-        delete targetOsVersion;
+        delete[] targetOsVersion;
     }
     status->DiagnosticLogWithErrorCodeA(__FUNCTION__, result);
     return result;
@@ -2801,7 +2801,7 @@ HRESULT CHIndexerBase::_SetMajorVersionNumber(IXMLDOMNode* const root, IDefStatu
         result = S_OK;
         status->Reset();
     }
-    delete majorVersion;
+    delete[] majorVersion;
 
     result = ComputeHResult(result, status);
     status->DiagnosticLogWithErrorCodeA(__FUNCTION__, result);

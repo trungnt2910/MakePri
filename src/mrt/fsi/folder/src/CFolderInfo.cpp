@@ -115,7 +115,7 @@ HRESULT CFolderInfo::Set(const wchar_t* const pFolder, const DWORD ulAttribute, 
         {
             _wszFolderAbsolutePath.append(convertedPath);
         }
-        operator delete(const_cast<wchar_t*>(convertedPath));
+        delete[] convertedPath;
     }
     if (_wszFolder.empty())
     {
@@ -172,7 +172,7 @@ HRESULT CFolderInfo::Set(const wchar_t* const pFolder, IDefStatusEx* const pStat
         _wszFolderAbsolutePath.append(accessiblePath);
         result = Set(pFolder, GetFileAttributesW(_wszFolderAbsolutePath.c_str()), 0, pStatus);
     }
-    operator delete(const_cast<wchar_t*>(accessiblePath));
+    delete[] accessiblePath;
     return result;
 }
 

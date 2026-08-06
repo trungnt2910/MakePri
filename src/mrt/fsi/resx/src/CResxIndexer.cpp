@@ -122,7 +122,7 @@ HRESULT CResxIndexer::CollectItemInstanceEntry(
         {
             result = valueResult;
         }
-        operator delete(name);
+        delete[] name;
     }
     return result;
 }
@@ -202,7 +202,7 @@ HRESULT CResxIndexer::Process(
                             status->SetError(E_DEF_FILE_NOT_FOUND, accessiblePath);
                         }
                     }
-                    operator delete(const_cast<wchar_t*>(accessiblePath));
+                    delete[] accessiblePath;
                 }
             }
         }

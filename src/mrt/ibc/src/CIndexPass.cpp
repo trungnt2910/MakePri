@@ -286,10 +286,10 @@ HRESULT CIndexPass::_ProcessIndexerNodes(IXMLDOMNodeList* const pNodeList, IDefS
             if (FAILED(result))
             {
                 SAFE_RELEASE(node);
-                operator delete(type);
+                delete[] type;
                 break;
             }
-            operator delete(type);
+            delete[] type;
             SAFE_RELEASE(node);
         }
     }
@@ -511,7 +511,7 @@ HRESULT CIndexPass::_ParseAllowedNodeQualifierValues(IXMLDOMNode* const pQualifi
                         if (SUCCEEDED(result) && value != nullptr)
                         {
                             values.insert(std::wstring(value));
-                            operator delete(value);
+                            delete[] value;
                         }
                         SAFE_RELEASE(valueNode);
                     }
@@ -528,7 +528,7 @@ HRESULT CIndexPass::_ParseAllowedNodeQualifierValues(IXMLDOMNode* const pQualifi
             result = S_OK;
             pStatus->Reset();
         }
-        operator delete(name);
+        delete[] name;
     }
 
     const HRESULT computedResult = ComputeHResult(result, pStatus);

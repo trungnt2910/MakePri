@@ -86,10 +86,10 @@ HRESULT CResxXmlConfig::Parse(IDefStatusEx* const status)
                                 PathRemoveBackslashW(initialPath);
                                 Def_HrFailed0(DefStringResult_SetCopy(m_initialPath.GetStringResult(), initialPath), status);
                             }
-                            operator delete(initialPath);
+                            delete[] initialPath;
                             found = true;
                         }
-                        operator delete(type);
+                        delete[] type;
                         delete helper;
                         type = nullptr;
                     }
