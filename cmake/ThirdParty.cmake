@@ -17,6 +17,7 @@ if(NOT WIN32)
         VERSION 2.15.3
         GIT_REPOSITORY https://gitlab.gnome.org/GNOME/libxml2.git
         GIT_TAG v2.15.3
+        EXCLUDE_FROM_ALL YES
         OPTIONS
             "HAVE_DECL_GETENTROPY 0"
             "LIBXML2_WITH_ICONV FALSE"
@@ -61,6 +62,7 @@ CPMAddPackage(
     VERSION 1.2.0
     URL https://github.com/uni-algo/uni-algo/archive/refs/tags/v1.2.0.tar.gz
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    EXCLUDE_FROM_ALL YES
     OPTIONS "UNI_ALGO_HEADER_ONLY TRUE"
 )
 
